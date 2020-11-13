@@ -1,4 +1,4 @@
-package com.hackerrank;
+package com.hackerrank.easydifficulty;
 
 import java.util.Scanner;
 
