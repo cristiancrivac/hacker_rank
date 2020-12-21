@@ -23,12 +23,34 @@ public class TheBombermanGame {
             }
         }
 
-        res = bomberMan(n, grid);
+        if (n == 1) {
+            for (int i = 0; i < r; i++) {
+                for (int j = 0; j < c; j++) {
+                    System.out.print(grid[i][j]);
+                }
+                System.out.println();
+            }
+            return;
+        }
+
+        res = bomberMan(grid);
+
+        if (n % 4 == 1) {
+            char[][] rebuild = new char[r][c];
+
+            for (int i = 0; i < r; i++) {
+                for (int j = 0; j < c; j++) {
+                    rebuild[i][j] = (char) (res[i][j] - 15);
+                }
+            }
+
+            res = bomberMan(rebuild);
+        }
 
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
-                if (((n + 3) % 3) != 0) {
-                    System.out.print(res[i][j]);
+                if (((n % 2) == 0) && (n != 0)) {
+                    System.out.print("O");
                 } else {
                     System.out.print((char) (res[i][j] - 15));
                 }
@@ -37,45 +59,34 @@ public class TheBombermanGame {
         }
     }
 
-    static char[][] bomberMan(int n, char[][] grid) {
+    static char[][] bomberMan(char[][] grid) {
         int rows = grid.length;
         int columns = grid[0].length;
-        int cycle = (n + 3) % 3;
 
-        if (cycle == 0) {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    if (grid[i][j] == 'O') {
-                        grid[i][j] = '=';
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (grid[i][j] == 'O') {
+                    grid[i][j] = '=';
 
-                        if (((i - 1) >= 0) && grid[i - 1][j] != 'O') {
-                            grid[i - 1][j] = '=';
-                        }
-
-                        if (((i + 1) < rows) && grid[i + 1][j] != 'O') {
-                            grid[i + 1][j] = '=';
-                        }
-
-                        if (((j - 1) >= 0) && grid[i][j - 1] != 'O') {
-                            grid[i][j - 1] = '=';
-                        }
-
-                        if (((j + 1) < columns) && grid[i][j + 1] != 'O') {
-                            grid[i][j + 1] = '=';
-                        }
+                    if (((i - 1) >= 0) && grid[i - 1][j] != 'O') {
+                        grid[i - 1][j] = '=';
                     }
 
-                    if (grid[i][j] == '.') {
-                        grid[i][j] = '^';
+                    if (((i + 1) < rows) && grid[i + 1][j] != 'O') {
+                        grid[i + 1][j] = '=';
+                    }
+
+                    if (((j - 1) >= 0) && grid[i][j - 1] != 'O') {
+                        grid[i][j - 1] = '=';
+                    }
+
+                    if (((j + 1) < columns) && grid[i][j + 1] != 'O') {
+                        grid[i][j + 1] = '=';
                     }
                 }
-            }
-        }
 
-        if (cycle == 2) {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    grid[i][j] = 'O';
+                if (grid[i][j] == '.') {
+                    grid[i][j] = '^';
                 }
             }
         }
